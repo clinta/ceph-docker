@@ -43,5 +43,3 @@ if [[ "$(docker ps | grep ceph- | wc -l)" -ne 4 ]]; then
   echo "please see the previous output to figure out which one"
   exit 1
 fi
-
-docker exec ceph-mon ceph -s
