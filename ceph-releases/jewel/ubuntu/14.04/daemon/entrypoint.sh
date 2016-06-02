@@ -133,16 +133,16 @@ function start_mon {
   if [ ${NETWORK_AUTO_DETECT} -ne 0 ]; then
     if [ -x $(command -v ip) ]; then
       if [ ${NETWORK_AUTO_DETECT} -eq 1 ]; then
-        MON_IP=$(ip -6 -o a | grep scope.global | awk '/eth/ { sub ("/..", "", $4); print $4 }' | head -n1)
+        MON_IP=$(ip -6 -o a | grep scope.global | awk '/eth|ens|eno|enp/ { sub ("/..", "", $4); print $4 }' | head -n1)
         if [ -z "$MON_IP" ]; then
-          MON_IP=$(ip -4 -o a | awk '/eth/ { sub ("/..", "", $4); print $4 }')
+          MON_IP=$(ip -4 -o a | awk '/eth|ens|eno|enp/ { sub ("/..", "", $4); print $4 }')
           CEPH_PUBLIC_NETWORK=$(ip r | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/[0-9]\{1,2\}' | head -1)
         fi
       elif [ ${NETWORK_AUTO_DETECT} -eq 4 ]; then
-        MON_IP=$(ip -4 -o a | awk '/eth/ { sub ("/..", "", $4); print $4 }')
+        MON_IP=$(ip -4 -o a | awk '/eth|ens|eno|enp/ { sub ("/..", "", $4); print $4 }')
         CEPH_PUBLIC_NETWORK=$(ip r | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/[0-9]\{1,2\}' | head -1)
       elif [ ${NETWORK_AUTO_DETECT} -eq 6 ]; then
-        MON_IP=$(ip -6 -o a | grep scope.global | awk '/eth/ { sub ("/..", "", $4); print $4 }' | head -n1)
+        MON_IP=$(ip -6 -o a | grep scope.global | awk '/eth|ens|eno|enp/ { sub ("/..", "", $4); print $4 }' | head -n1)
         CEPH_PUBLIC_NETWORK=$(ip r | grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/[0-9]\{1,2\}' | head -1)
       fi
     # best effort, only works with ipv4
