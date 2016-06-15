@@ -254,8 +254,7 @@ function osd_disk {
 
   mkdir -p /var/lib/ceph/osd
 
-  # TODO:
-  # -  add device format check (make sure only one device is passed
+	OSD_DEVICE=$(readlink -f ${OSD_DEVICE}) || echo "ERROR- ${OSD_DEVICE} is not valid" && exit 1
 
   if [[ "$(parted --script ${OSD_DEVICE} print | egrep '^ 1.*ceph data')" && ${OSD_FORCE_ZAP} -ne "1" ]]; then
     echo "ERROR- It looks like this device is an OSD, set OSD_FORCE_ZAP=1 to use this device anyway and zap its content"
